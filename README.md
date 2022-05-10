@@ -1,5 +1,7 @@
 # Symbl Agora iOS Swift Demo App
 
+[![Websocket](https://img.shields.io/badge/symbl-websocket-brightgreen)](https://docs.symbl.ai/docs/streamingapi/overview/introduction)
+
 Symbl.ai is a Conversation Intelligence (CI) platform for developers to build and extend applications capable of understanding natural human conversations at scale. 
 Our comprehensive suite of AI/ML products enable developers to easily build and deploy intelligent speech-to-text functionality, extract contextual insights, generate domain-specific insights and intelligence, and access advanced conversation analytics.
 
@@ -22,6 +24,8 @@ By using the Symbl APIs with the Agora iOS Video Call SDK capabilities you benef
 - **Conversation Analytics**: Analyze and measure speaker interaction and conversation patterns metrics such as: speaker ratio, talk time, silence, pace, overlap and more.
 
 <hr />
+
+## Introduction
 
 This demo application enables you to quickly get started with Symbl while using the Agora Video Call iOS SDK.
 
@@ -60,6 +64,8 @@ git clone https://github.com/symblai/symbl-agora-iOS-swift-app.git
   
 ## Running the Demo Application
 1. Connect your iOS device and run the project. Ensure a valid provisioning profile is applied to our project.
+1. The demo application will then initialize the Agora engine, join the channel, initialize the Symbl connection and start capturing the audio stream.
+You should receive the Speech to Text (STT) back from Symbl and diplayed at the bottom of the screen.
 
 ## Community
 
