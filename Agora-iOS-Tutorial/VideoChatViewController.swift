@@ -208,12 +208,10 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
                 print("Error with the response, unexpected status code: \(response!)")
                 return
               }
-            
                 do {
                     //create json object from data
                     let authResponse: AuthResponse = try JSONDecoder().decode(AuthResponse.self, from: data!)
                     completionHandler(authResponse);
-                    
                 } catch let error {
                     print(error.localizedDescription)
                 }
@@ -224,49 +222,51 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
     func joinChannel() {
         print("Joining channel")
         // Set audio route to speaker
-        agoraKit.setDefaultAudioRouteToSpeakerphone(true)
+        //agoraKit.setDefaultAudioRouteToSpeakerphone(true)
         
         // Sets the audio data format returned in onRecordAudioFrame
-        agoraKit.setRecordingAudioFrameParametersWithSampleRate(44100, channel: 1, mode: .readWrite, samplesPerCall: 4410)
+        //agoraKit.setRecordingAudioFrameParametersWithSampleRate(44100, channel: 1, mode: .readWrite, samplesPerCall: 4410)
         // Sets the audio data format returned in onMixedAudioFrame
-        agoraKit.setMixedAudioFrameParametersWithSampleRate(44100, samplesPerCall: 4410)
+        //agoraKit.setMixedAudioFrameParametersWithSampleRate(44100, samplesPerCall: 4410)
         // Sets the audio data format returned in onPlaybackAudioFrame
-        agoraKit.setPlaybackAudioFrameParametersWithSampleRate(44100, channel: 1, mode: .readWrite, samplesPerCall: 4410)
+        //agoraKit.setPlaybackAudioFrameParametersWithSampleRate(44100, channel: 1, mode: .readWrite, samplesPerCall: 4410)
         
         // 1. Users can only see each other after they join the
         // same channel successfully using the same app id.
         // 2. One token is only valid for the channel name that
         // you use to generate this token.
-        agoraKit.joinChannel(byToken: Token, channelId: "demoChannel1", info: nil, uid: 0) { [unowned self] (channel, uid, elapsed) -> Void in
-            // Did join channel "demoChannel1"
+        agoraKit?.joinChannel(byToken: Token,
+                             channelId: channelId,
+                             info: nil,
+                             uid: 0) {
+            (_, uid, _) in
+            //[unowned self] (channel, uid, elapsed) -> Void in
             self.isLocalVideoRender = true
-            self.logVC?.log(type: .info, content: "did join channel")
+            self.logVC?.log(type: .info, content: "Joined channel")
             
-            let connectionId = "984578"
+            let randomInt = Int.random(in: 1...9999)
+            let connectionId = String(randomInt)
             
-            getSymblToken { (authResponse: AuthResponse) in
+            self.logVC?.log(type: .info, content: "Connecting to Symbl")
+            self.getSymblToken { (authResponse: AuthResponse) in
                let url = "wss://api.symbl.ai/v1/realtime/insights/\(connectionId)?access_token=\(authResponse.accessToken!)"
-//                print("Connecting to Symbl. URL: \(url)")
                 var request = URLRequest(url: URL(string: url)!)
                 request.timeoutInterval = 5
-                socket = WebSocket(request: request)
-                socket.delegate = self
-                socket.connect()
+                self.socket = WebSocket(request: request)
+                self.socket.delegate = self
+                self.socket.connect()
             }
-            
-            
-            
-          
         }
         isStartCalling = true
         UIApplication.shared.isIdleTimerDisabled = true
     }
     
     func sendStartRequest() {
-        let startRequest: String = "{\"type\":\"start_request\",\"insightTypes\":[\"action_item\"],\"config\":{\"confidenceThreshold\":0.5,\"timezoneOffset\":420,\"languageCode\":\"en-US\",\"speechRecognition\":{\"encoding\":\"LINEAR16\",\"sampleRateHertz\":44100}},\"speaker\":{\"userId\":\"james@symbl.ai\",\"name\":\"James\"}}";
+        let startRequest: String = "{\"type\":\"start_request\",\"insightTypes\":[\"action_item\"],\"config\":{\"confidenceThreshold\":0.5,\"timezoneOffset\":420,\"languageCode\":\"en-US\",\"speechRecognition\":{\"encoding\":\"LINEAR16\",\"sampleRateHertz\":48000}},\"speaker\":{\"userId\":\"\(userEmail)\",\"name\":\"\(userName)\"}}";
         socket.write(string: startRequest) {
             self.isSymblConnected = true
-            print("Symbl start_request acknowledged.")
+            self.logVC?.log(type: .info, content: "Connected to Symbl")
+            print("Connected to Symbl")
         }
     }
     
@@ -281,17 +281,14 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
         if (user == nil) {
             user = ""
         }
-        
         var isFinal = message?.isFinal
         if (isFinal == nil) {
             isFinal = false;
         }
-        
         if (user == "" && transcript == "") {
             return;
         }
         let caption = "\(user!): \(transcript!)";
-        
         print(caption)
         if (isFinal!) {
             logVC?.log(type: Log.ContentType.caption, content: caption)
@@ -301,37 +298,33 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
     }
     
     func didReceive(event: WebSocketEvent, client: WebSocket) {
-
         switch event {
-        
-        case .connected(let headers):
-            print("Websocket is connected. Sending start request.")
-            sendStartRequest()
-        case .disconnected(let reason, let code):
-            isSymblConnected = false
-            print("websocket is disconnected: \(reason) with code: \(code)")
-        case .text(let string):
-//            print("Received text: \(string)")
-            receivedResponse(response: string)
-        case .binary(let data):
-            print("Received data: \(data.count)")
-        case .ping(_):
-            break
-        case .pong(_):
-            break
-        case .viabilityChanged(_):
-            break
-        case .reconnectSuggested(_):
-            break
-        case .cancelled:
-            isSymblConnected = false
-        case .error(let error):
-            isSymblConnected = false
-            self.logVC?.log(type: .error, content: "Error in symbl connectivity \(error)")
+            case .connected(let headers):
+                print("Websocket is connected. Sending start request.")
+                sendStartRequest()
+            case .disconnected(let reason, let code):
+                isSymblConnected = false
+                print("Websocket is disconnected: \(reason) with code: \(code)")
+            case .text(let string):
+                receivedResponse(response: string)
+            case .binary(let data):
+                print("Received data: \(data.count)")
+            case .ping(_):
+                break
+            case .pong(_):
+                break
+            case .viabilityChanged(_):
+                break
+            case .reconnectSuggested(_):
+                break
+            case .cancelled:
+                isSymblConnected = false
+            case .error(let error):
+                isSymblConnected = false
+            self.logVC?.log(type: .error, content: "Error connecting to Symbl: \(String(describing: error))")
         }
     }
-    
-    
+
     func leaveChannel() {
         // leave channel and end chat
         agoraKit.leaveChannel(nil)
@@ -340,7 +333,7 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
         isLocalVideoRender = false
         isStartCalling = false
         UIApplication.shared.isIdleTimerDisabled = false
-        self.logVC?.log(type: .info, content: "did leave channel")
+        self.logVC?.log(type: .info, content: "Left channel")
         socket?.disconnect()
     }
     
@@ -466,6 +459,6 @@ extension VideoChatViewController: AgoraRtcEngineDelegate {
     ///   - engine: RTC engine instance
     ///   - errorCode: Error code
     func rtcEngine(_ engine: AgoraRtcEngineKit, didOccurError errorCode: AgoraErrorCode) {
-        logVC?.log(type: .error, content: "did occur error, code: \(errorCode.rawValue)")
+        logVC?.log(type: .error, content: "Error occurred, code: \(errorCode.rawValue)")
     }
 }

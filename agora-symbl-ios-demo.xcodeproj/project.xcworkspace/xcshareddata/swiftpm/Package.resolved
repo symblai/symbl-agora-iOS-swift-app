@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "agorartcengine_ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AgoraIO/AgoraRtcEngine_iOS",
+      "state" : {
+        "branch" : "main",
+        "revision" : "7cce4dcc6ff7471473195c6ccb5b0aa2a6d5ba42"
+      }
+    },
+    {
+      "identity" : "starscream",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/daltoniam/Starscream.git",
+      "state" : {
+        "revision" : "df8d82047f6654d8e4b655d1b1525c64e1059d21",
+        "version" : "4.0.4"
+      }
+    }
+  ],
+  "version" : 2
+}

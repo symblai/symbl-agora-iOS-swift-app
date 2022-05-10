@@ -1,93 +1,77 @@
-# Symbl Agora iOS Swift App
+# Symbl Agora iOS Swift Demo App
 
-[![Websocket](https://img.shields.io/badge/symbl-websocket-brightgreen)](https://docs.symbl.ai/docs/streamingapi/overview/introduction)
+Symbl.ai is a Conversation Intelligence (CI) platform for developers to build and extend applications capable of understanding natural human conversations at scale. 
+Our comprehensive suite of AI/ML products enable developers to easily build and deploy intelligent speech-to-text functionality, extract contextual insights, generate domain-specific insights and intelligence, and access advanced conversation analytics.
 
-Symbl's APIs empower developers to enable: 
+By using the Symbl APIs with the Agora iOS Video Call SDK capabilities you benefit from the following out-of-the-box Conversation Intelligence capabilities:
 
-- **Real-time** analysis of free-flowing discussions to automatically surface highly relevant summary discussion topics, contextual insights, suggestive action items, follow-ups, decisions, and questions.\
-- **Voice APIs** that makes it easy to add AI-powered conversational intelligence to either [telephony][telephony] or [WebSocket][websocket] interfaces.
-- **Conversation APIs** that provide a REST interface for managing and processing your conversation data.
-- **Summary UI** with a fully customizable and editable reference experience that indexes a searchable transcript and shows generated actionable insights, topics, timecodes, and speaker information.
+- **Transcription Plus**: Intelligent speech-to-text capabilities, converting speech from a live audio stream and/or video into text and transcripts.
+
+- **Action Items**: Auto detect specific outcomes recognized in a conversation that requires one or more speakers to act on.
+
+- **Follow-ups**: Auto detect follow ups — a type of action Item with connotations to follow up a request or a task (e.g. sending an email or making a phone call or booking an appointment or setting up a meeting).
+
+- **Questions**: Auto detect and identify explicit questions or requests for information that comes up during the conversation.
+
+- **Sentiment Analysis**: Easily conduct sentiment analysis on any conversation, at the sentence and topic levels.
+
+- **Conversation Topics**: Auto extract and organize all your conversations by topics.
+
+- **Custom Trackers**: Track the occurrences of unique and contextually similar keywords or phrases to identify emerging trends and insights specific to your business and use cases.
+
+- **Conversation Analytics**: Analyze and measure speaker interaction and conversation patterns metrics such as: speaker ratio, talk time, silence, pace, overlap and more.
 
 <hr />
 
-## Symbl Agora iOS Swift App
+This demo application enables you to quickly get started with Symbl while using the Agora Video Call iOS SDK.
 
-<hr />
+With this demo application you will be able to:
 
-This tutorial enables you to quickly get started with adding Symbl.ai to an iOS app to enable real-time video calls, voice calls, or interactive broadcasting using Agora with a WebSocket.  
-
-With your sample app you can:
-
-- Start and end audio/visual communication between two users.
-- Join a communication channel.
-- Mute and unmute audio.
-- Enable and disable video.
-- Switch between the front and rear cameras.
+- Start a video call between two users
+- Join a communication channel
+- Mute and unmute audio
+- Enable and disable video
+- Switch between the front and rear cameras
 - Receive and show live transcriptions and insights from Symbl
 
 ## Prerequisites
 
-- Xcode 10.0+
-- Physical iOS device (iPhone or iPad)
-- iOS simulator is NOT supported
-- Agora Account
-- Symbl Account
+- Xcode 13.x.
+- Physical iOS device (iPhone or iPad).
+- A valid [Agora account](https://console.agora.io/).
+- A valid Agora project with an App Id and a temporary token. See [Get Started with Agora](https://docs.agora.io/en/Agora%20Platform/get_appid_token?platform=All%20Platforms) for details.
+- A valid [Symbl account](https://platform.symbl.ai/#/signup).
+- A valid Symbl App Id and App Secret. See [Get your API Credentials](https://docs.symbl.ai/docs/developer-tools/authentication/) for details.
 
-## Quick Start
+The following steps will guide you through the set up, build and running the application instructions.
 
-This section shows you how to prepare, build, and run the sample application.
-
-### Obtain an App Id
-
-To build and run the sample application, get an App Id:
-
-1. Create a developer account at [agora.io](https://dashboard.agora.io/signin/). Once you finish the signup process, you will be redirected to the Dashboard.
-2. Navigate in the Dashboard tree on the left to **Projects** > **Project List**.
-3. Save the **App Id** from the Dashboard for later use.
-4. Generate a temp **Access Token** (valid for 24 hours) from dashboard page with given channel name, save for later use.
-
-5. Open `Agora iOS Tutorial.xcodeproj` and edit the `AppID.swift` file. In the `agoraKit` declaration, update `<#Your App Id#>` with your App Id, and assign the token variable with the temp Access Token generated from dashboard.
-
-    ```Swift
-    let AppID: String = <#Your App Id#>
-    // assign Token to nil if you have not enabled app certificate
-    let Token: String? = <#Temp Token#>
-    ```
-### Obtain Symbl App ID and App Secret
-
-1. Create an account in the [Symbl Console](https://platform.symbl.ai) if you don't have one already.
-2. After you login, you will find your appId and appSecret on the home page.
-3. Store your appId and appSecret in the `.env` file in the root level of the application (example below).
-4. 5. Open `Agora iOS Tutorial.xcodeproj` and edit the `AppID.swift` file. In there, update `symblAppId` and `symblAppSecret` that you see on Symbl console.
-   
-```Swift
-let SymblAppId: String = "<#Your Symbl App Id#>"
-let SymblAppSecret: String = "<#Your Symbl App Secret#>"
+## Set up
+1. Clone the project
+```bash
+git clone https://github.com/symblai/symbl-agora-iOS-swift-app.git
 ```
-### Integrate Agora Video SDK 
-1. Download the [Agora Video SDK](https://www.agora.io/en/download/). Unzip the downloaded SDK package and copy the following files from the SDK `libs` folder into the sample application `Agora iOS Tutorial Objective-C` folder.
-   - `AograRtcEngineKit.framework`
-   - `AgoraRtcCryptoLoader.framework`
 
-2. Add [Starscream](https://github.com/daltoniam/Starscream) to your Xcode project as a package dependency.  
+1. Open the project in Xcode.
+1. Open the `AppSettings.swift` file and update it with the Agora App Id, temporary token, channel Id (project name), Symbl App Id, Symbl App Secret, user name and email.
+
+1. There are two package dependencies required to be installed:
+- AgoraRtcKit (https://github.com/AgoraIO/AgoraRtcEngine_iOS)
+- Starscream (https://github.com/daltoniam/Starscream)
   
-3. Connect your iPhone or iPad device and run the project. Ensure a valid provisioning profile is applied or your project will not run.
+## Running the Demo Application
+1. Connect your iOS device and run the project. Ensure a valid provisioning profile is applied to our project.
 
 ## Community
 
 If you have any questions, feel free to reach out to us at devrelations@symbl.ai or thorugh our [Community Slack][slack] or our [developer community][developer_community]
 
-This guide is actively developed, and we love to hear from you! Please feel free to [create an issue][issues] or [open a pull request][pulls] with your questions, comments, suggestions and feedback.  If you liked our integration guide, please star our repo!
+This guide is actively developed, and we love to hear from you! Please feel free to [create an issue][issues] with your questions, comments, suggestions and feedback or [open a pull request][pulls] with your contributions.
 
-This library is released under the [MIT License][license]
+This demo application is released under the [MIT License][license]
 
-[license]: LICENSE.txt
-[telephony]: https://docs.symbl.ai/docs/telephony/overview/post-api
-[websocket]: https://docs.symbl.ai/docs/streamingapi/overview/introduction
+[license]: LICENSE
 [developer_community]: https://community.symbl.ai/?_ga=2.134156042.526040298.1609788827-1505817196.1609788827
 [slack]: https://join.slack.com/t/symbldotai/shared_invite/zt-4sic2s11-D3x496pll8UHSJ89cm78CA
-[signup]: https://platform.symbl.ai/?_ga=2.63499307.526040298.1609788827-1505817196.1609788827
-[issues]: https://github.com/symblai/symbl-for-zoom/issues
-[pulls]: https://github.com/symblai/symbl-for-zoom/pulls
+[issues]: https://github.com/symblai/symbl-agora-iOS-swift-app/issues
+[pulls]: https://github.com/symblai/symbl-agora-iOS-swift-app/pulls
 
