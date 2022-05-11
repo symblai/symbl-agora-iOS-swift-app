@@ -11,7 +11,7 @@
         <!--Video Chat View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="VideoChatViewController" customModule="Agora_iOS_Tutorial" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="VideoChatViewController" customModule="agora_symbl_ios_demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -90,12 +90,12 @@
                                     <action selector="didClickSwitchCameraButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EqE-e5-y7z"/>
                                 </connections>
                             </button>
-                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QRw-lx-Hkf">
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QRw-lx-Hkf">
                                 <rect key="frame" x="16" y="450" width="334" height="86"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="86" id="V5I-uV-iFR"/>
-                                    <constraint firstAttribute="width" constant="300" id="jLG-ip-vlH"/>
+                                    <constraint firstAttribute="width" constant="334" id="jLG-ip-vlH"/>
                                 </constraints>
                                 <connections>
                                     <segue destination="2sX-hm-eZ5" kind="embed" identifier="EmbedLogViewController" id="8qw-dt-bWG"/>

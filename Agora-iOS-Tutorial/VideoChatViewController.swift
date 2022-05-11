@@ -1,6 +1,5 @@
 import UIKit
 import AgoraRtcKit
-
 import Starscream
 
 struct User: Decodable {
@@ -30,7 +29,6 @@ struct AuthResponse: Decodable {
     let expiresIn: Int!
 }
 
-
 class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, WebSocketDelegate {
     @IBOutlet weak var localContainer: UIView!
     @IBOutlet weak var remoteContainer: UIView!
@@ -46,7 +44,6 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
     var remoteVideo: AgoraRtcVideoCanvas?
     var socket: WebSocket!
     var isSymblConnected: Bool! = false
-    
     
     var isRemoteVideoRender: Bool = true {
         didSet {
@@ -97,7 +94,6 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
         guard let identifier = segue.identifier else {
             return
         }
-        
         if identifier == "EmbedLogViewController",
             let vc = segue.destination as? LogViewController {
             self.logVC = vc
@@ -153,9 +149,9 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
         // Please go to this page for detailed explanation
         // https://docs.agora.io/cn/Voice/API%20Reference/java/classio_1_1agora_1_1rtc_1_1_rtc_engine.html#af5f4de754e2c1f493096641c5c5c1d8f
         agoraKit.setVideoEncoderConfiguration(AgoraVideoEncoderConfiguration(size: AgoraVideoDimension640x360,
-                                                                             frameRate: .fps15,
-                                                                             bitrate: AgoraVideoBitrateStandard,
-                                                                             orientationMode: .adaptative))
+            frameRate: .fps15,
+            bitrate: AgoraVideoBitrateStandard,
+            orientationMode: .adaptative))
     }
     
     func setupLocalVideo() {
@@ -178,13 +174,11 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
     
     func getSymblToken(completionHandler: @escaping (AuthResponse) -> Void) {
             let url = URL(string: "https://api.symbl.ai/oauth2/token:generate")!
-            
             let bodyParameters = [
                 "type": "application",
                 "appId": SymblAppId,
                 "appSecret": SymblAppSecret
             ]
-            
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             
@@ -235,12 +229,12 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
         // same channel successfully using the same app id.
         // 2. One token is only valid for the channel name that
         // you use to generate this token.
-        agoraKit?.joinChannel(byToken: Token,
-                             channelId: channelId,
-                             info: nil,
-                             uid: 0) {
-            (_, uid, _) in
-            //[unowned self] (channel, uid, elapsed) -> Void in
+        agoraKit.joinChannel(byToken: Token, channelId: channelId, info: nil, uid: 0) { [unowned self] (channel, uid, elapsed) -> Void in
+        //agoraKit?.joinChannel(byToken: Token,
+         //                    channelId: channelId,
+         //                    info: nil,
+         //                    uid: 0) {
+         //   (_, uid, _) -> Void in
             self.isLocalVideoRender = true
             self.logVC?.log(type: .info, content: "Joined channel")
             
@@ -265,7 +259,6 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
         let startRequest: String = "{\"type\":\"start_request\",\"insightTypes\":[\"action_item\"],\"config\":{\"confidenceThreshold\":0.5,\"timezoneOffset\":420,\"languageCode\":\"en-US\",\"speechRecognition\":{\"encoding\":\"LINEAR16\",\"sampleRateHertz\":48000}},\"speaker\":{\"userId\":\"\(userEmail)\",\"name\":\"\(userName)\"}}";
         socket.write(string: startRequest) {
             self.isSymblConnected = true
-            self.logVC?.log(type: .info, content: "Connected to Symbl")
             print("Connected to Symbl")
         }
     }
