@@ -229,12 +229,11 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
         // same channel successfully using the same app id.
         // 2. One token is only valid for the channel name that
         // you use to generate this token.
-        agoraKit.joinChannel(byToken: Token, channelId: channelId, info: nil, uid: 0) { [unowned self] (channel, uid, elapsed) -> Void in
-        //agoraKit?.joinChannel(byToken: Token,
-         //                    channelId: channelId,
-         //                    info: nil,
-         //                    uid: 0) {
-         //   (_, uid, _) -> Void in
+        agoraKit?.joinChannel(byToken: Token,
+                              channelId: channelId,
+                              info: nil,
+                              uid: 0) {
+            (_, uid, _) -> Void in
             self.isLocalVideoRender = true
             self.logVC?.log(type: .info, content: "Joined channel")
             
