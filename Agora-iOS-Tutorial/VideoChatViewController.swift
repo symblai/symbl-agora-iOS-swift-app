@@ -101,26 +101,15 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
     }
     
     func initializeAgoraEngine() {
-        // init AgoraRtcEngineKit
         agoraKit = AgoraRtcEngineKit.sharedEngine(withAppId: AppID, delegate: self)
-               
         let audioType:ObserverAudioType = ObserverAudioType(rawValue: ObserverAudioType.recordAudio.rawValue | ObserverAudioType.playbackAudioFrameBeforeMixing.rawValue | ObserverAudioType.mixedAudio.rawValue | ObserverAudioType.playbackAudio.rawValue);
         
         agoraMediaDataPlugin = AgoraMediaDataPlugin(agoraKit: agoraKit)
         agoraMediaDataPlugin.registerAudioRawDataObserver(audioType)
         agoraMediaDataPlugin.audioDelegate = self
-//        let action = #selector(VideoChatViewController.mediaDataPlugin)
-//        print(#selector(self.mediaDataPlugin))
     }
     
-//    @objc func mediaDataPlugin(audioRawData: AgoraAudioRawData) -> AgoraAudioRawData {
-//        print(type(of: audioRawData.buffer))
-//        return audioRawData
-//    }
-//
     func mediaDataPlugin(_ mediaDataPlugin: AgoraMediaDataPlugin, didRecord audioRawData: AgoraAudioRawData) -> AgoraAudioRawData {
-//        print(audioRawData.bufferSize)
-//        audioRawData.buffer
         if (isSymblConnected) {
             let data = Data(bytes: audioRawData.buffer, count: Int(audioRawData.bufferSize))
             socket.write(data: data)
@@ -128,26 +117,12 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
       return audioRawData
     }
     
-//    @objc func mediaDataPlugin(audioRawData: AgoraAudioRawData) -> AgoraAudioRawData {
-//
-//        if (isSymblConnected) {
-////            let data:Data = Data(String(audioRawData.buffer))
-////            socket.write(data: data)
-//        }
-//        print(type(of: audioRawData.buffer))
-//
-//        return audioRawData
-//    }
-
     func setupVideo() {
         // In simple use cases, we only need to enable video capturing
         // and rendering once at the initialization step.
-        // Note: audio recording and playing is enabled by default.
         agoraKit.enableVideo()
         
         // Set video configuration
-        // Please go to this page for detailed explanation
-        // https://docs.agora.io/cn/Voice/API%20Reference/java/classio_1_1agora_1_1rtc_1_1_rtc_engine.html#af5f4de754e2c1f493096641c5c5c1d8f
         agoraKit.setVideoEncoderConfiguration(AgoraVideoEncoderConfiguration(size: AgoraVideoDimension640x360,
             frameRate: .fps15,
             bitrate: AgoraVideoBitrateStandard,
@@ -159,9 +134,8 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
         // The steps setting local and remote view are very similar.
         // But note that if the local user do not have a uid or do
         // not care what the uid is, he can set his uid as ZERO.
-        // Our server will assign one and return the uid via the block
-        // callback (joinSuccessBlock) after
-        // joining the channel successfully.
+        // The Agora server will assign one and return the uid via the block
+        // callback (joinSuccessBlock) after joining the channel successfully.
         let view = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: localContainer.frame.size))
         localVideo = AgoraRtcVideoCanvas()
         localVideo!.view = view
@@ -217,17 +191,15 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
         print("Joining channel")
         // Set audio route to speaker
         //agoraKit.setDefaultAudioRouteToSpeakerphone(true)
-        
         // Sets the audio data format returned in onRecordAudioFrame
         //agoraKit.setRecordingAudioFrameParametersWithSampleRate(44100, channel: 1, mode: .readWrite, samplesPerCall: 4410)
         // Sets the audio data format returned in onMixedAudioFrame
         //agoraKit.setMixedAudioFrameParametersWithSampleRate(44100, samplesPerCall: 4410)
         // Sets the audio data format returned in onPlaybackAudioFrame
         //agoraKit.setPlaybackAudioFrameParametersWithSampleRate(44100, channel: 1, mode: .readWrite, samplesPerCall: 4410)
-        
-        // 1. Users can only see each other after they join the
+        // Users can only see each other after they join the
         // same channel successfully using the same app id.
-        // 2. One token is only valid for the channel name that
+        // One token is only valid for the channel name that
         // you use to generate this token.
         agoraKit?.joinChannel(byToken: Token,
                               channelId: channelId,
@@ -320,7 +292,6 @@ class VideoChatViewController: UIViewController, AgoraAudioDataPluginDelegate, W
     func leaveChannel() {
         // leave channel and end chat
         agoraKit.leaveChannel(nil)
-        
         isRemoteVideoRender = false
         isLocalVideoRender = false
         isStartCalling = false
@@ -392,7 +363,6 @@ extension VideoChatViewController: AgoraRtcEngineDelegate {
     ///   - elapsed: Time elapsed (ms) from the local user calling JoinChannel method until the SDK triggers this callback.
     func rtcEngine(_ engine: AgoraRtcEngineKit, firstRemoteVideoDecodedOfUid uid:UInt, size:CGSize, elapsed:Int) {
         isRemoteVideoRender = true
-        
         var parent: UIView = remoteContainer
         if let it = localVideo, let view = it.view {
             if view.superview == parent {
@@ -406,7 +376,6 @@ extension VideoChatViewController: AgoraRtcEngineDelegate {
         if remoteVideo != nil {
             return
         }
-        
         let view = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: parent.frame.size))
         remoteVideo = AgoraRtcVideoCanvas()
         remoteVideo!.view = view
@@ -428,7 +397,6 @@ extension VideoChatViewController: AgoraRtcEngineDelegate {
             remoteVideo = nil
         }
     }
-    
     /// Occurs when a remote user’s video stream playback pauses/resumes.
     /// - Parameters:
     ///   - engine: RTC engine instance
