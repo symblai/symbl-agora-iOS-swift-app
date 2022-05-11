@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,7 +11,7 @@
         <!--Video Chat View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="VideoChatViewController" customModule="Agora_iOS_Tutorial" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="VideoChatViewController" customModule="agora_symbl_ios_demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -91,17 +91,18 @@
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QRw-lx-Hkf">
-                                <rect key="frame" x="16" y="450" width="195" height="86"/>
+                                <rect key="frame" x="16" y="450" width="334" height="86"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="86" id="V5I-uV-iFR"/>
-                                    <constraint firstAttribute="width" constant="195" id="jLG-ip-vlH"/>
+                                    <constraint firstAttribute="width" constant="334" id="jLG-ip-vlH"/>
                                 </constraints>
                                 <connections>
                                     <segue destination="2sX-hm-eZ5" kind="embed" identifier="EmbedLogViewController" id="8qw-dt-bWG"/>
                                 </connections>
                             </containerView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="bhC-Zh-0jg"/>
                         <color key="backgroundColor" red="0.28264099359512329" green="0.25691255927085876" blue="0.34382003545761108" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="LZg-5L-xeZ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="2YX-WB-UuO"/>
@@ -127,7 +128,6 @@
                             <constraint firstItem="7Wh-nG-1kC" firstAttribute="centerY" secondItem="IcU-fJ-7nU" secondAttribute="centerY" id="z1b-7a-05t"/>
                             <constraint firstItem="bhC-Zh-0jg" firstAttribute="bottom" secondItem="IcU-fJ-7nU" secondAttribute="bottom" constant="45" id="z3q-1S-s7H"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="bhC-Zh-0jg"/>
                     </view>
                     <connections>
                         <outlet property="cameraButton" destination="5x4-q9-Nuw" id="dxl-mh-8NQ"/>
